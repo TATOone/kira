@@ -22,14 +22,13 @@ npm run dev
 Админка: https://resurs-materinstva.ru/keystatic
 
 Войти может владелец/коллаборатор репозитория [TATOone/kira](https://github.com/TATOone/kira)
-с правом записи. После сохранения Keystatic коммитит в GitHub, GitHub Actions
-собирает сайт и деплоит на Cloudflare Workers.
+с правом записи. После сохранения Keystatic коммитит в GitHub, и **Cloudflare Workers Builds**
+автоматически собирает сайт и деплоит Worker `kira-site`.
 
-Нужные секреты Cloudflare Worker / GitHub Actions:
+Нужные секреты Cloudflare Worker (runtime, уже через Wrangler):
 - `KEYSTATIC_GITHUB_CLIENT_ID`
 - `KEYSTATIC_GITHUB_CLIENT_SECRET`
 - `KEYSTATIC_SECRET`
-- `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` (plain var)
 
 Callback GitHub App:
 `https://resurs-materinstva.ru/api/keystatic/github/oauth/callback`
