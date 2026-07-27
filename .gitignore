@@ -8,5 +8,5 @@ dist/
 .keystatic-github-creds.json
 .DS_Store
 .cursor/
-content/
-feedback/
+/content/
+/feedback/
