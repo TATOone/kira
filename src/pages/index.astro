@@ -59,15 +59,18 @@ const practiceGallery = [
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-media" aria-hidden="true">
-        <img
-          src={site.hero.image}
-          alt=""
-          width="1206"
-          height="1787"
-          sizes="100vw"
-          fetchpriority="high"
-          decoding="async"
-        />
+        <picture>
+          <source srcset="/media/photos/hero.webp" type="image/webp" />
+          <img
+            src="/media/photos/hero.jpg"
+            alt=""
+            width="1206"
+            height="1787"
+            sizes="100vw"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
       <div class="container hero-content">
         <p class="eyebrow">{site.hero.eyebrow}</p>
