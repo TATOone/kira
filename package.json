@@ -7,7 +7,7 @@
     "build": "DEPLOY_TARGET=cloudflare astro check && DEPLOY_TARGET=cloudflare astro build",
     "preview": "astro preview",
     "check": "DEPLOY_TARGET=cloudflare astro check",
-    "deploy": "PUBLIC_SITE_URL=https://resurs-materinstva.ru PUBLIC_KEYSTATIC_STORAGE=github PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER=TATOone PUBLIC_KEYSTATIC_GITHUB_REPO_NAME=kira npm run build && wrangler deploy"
+    "deploy": "PUBLIC_SITE_URL=https://resurs-materinstva.ru PUBLIC_KEYSTATIC_STORAGE=github PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER=TATOone PUBLIC_KEYSTATIC_GITHUB_REPO_NAME=kira PUBLIC_KEYSTATIC_GITHUB_APP_SLUG=kira-resurs-materinstva npm run build && wrangler deploy"
   },
   "keywords": [],
   "author": "",

@@ -13,7 +13,8 @@
     "PUBLIC_SITE_URL": "https://resurs-materinstva.ru",
     "PUBLIC_KEYSTATIC_STORAGE": "github",
     "PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER": "TATOone",
-    "PUBLIC_KEYSTATIC_GITHUB_REPO_NAME": "kira"
+    "PUBLIC_KEYSTATIC_GITHUB_REPO_NAME": "kira",
+    "PUBLIC_KEYSTATIC_GITHUB_APP_SLUG": "kira-resurs-materinstva"
   },
   "routes": [
     { "pattern": "resurs-materinstva.ru", "custom_domain": true },
