@@ -1,0 +1,26 @@
+---
+interface Props {
+  id: string;
+  price: string;
+  text: string;
+}
+
+const { id, price, text } = Astro.props;
+---
+
+<span class="service-tip" data-tip data-tip-id={id}>
+  <button
+    class="service-tip__trigger"
+    type="button"
+    aria-expanded="false"
+    aria-controls={id}
+    aria-label={`Подробнее: ${price}`}
+    data-tip-trigger
+  >
+    {price}
+  </button>
+  <span class="service-tip__bubble" id={id} role="tooltip" data-tip-bubble hidden>
+    <strong class="service-tip__price">{price}</strong>
+    <span class="service-tip__text">{text}</span>
+  </span>
+</span>

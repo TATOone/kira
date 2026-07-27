@@ -1,0 +1,73 @@
+---
+interface Props {
+  brand: string;
+  logo?: string | null;
+  telegram: string;
+}
+
+const { brand, logo, telegram } = Astro.props;
+const telegramUrl = `https://t.me/${telegram.replace('@', '')}`;
+const [brandFirst = brand, ...brandRest] = brand.trim().split(/\s+/);
+const brandLast = brandRest.join(' ');
+const links = [
+  { href: '#about', label: 'Обо мне' },
+  { href: '#offline', label: 'Офлайн' },
+  { href: '#online', label: 'Онлайн' },
+  { href: '#reviews', label: 'Отзывы' },
+  { href: '#faq', label: 'Вопросы' },
+  { href: '#contact', label: 'Контакты' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label={`${brand} — на главную`}>
+      {
+        logo ? (
+          <img src={logo} alt={brand} />
+        ) : (
+          <span class="brand-mark">
+            <span class="brand-mark__first">{brandFirst}</span>
+            {brandLast ? <span class="brand-mark__last">{brandLast}</span> : null}
+          </span>
+        )
+      }
+    </a>
+
+    <nav class="desktop-nav" aria-label="Основная навигация">
+      {links.map((link) => <a href={link.href} data-nav-link>{link.label}</a>)}
+      <a class="button" href={telegramUrl} target="_blank" rel="noopener">Написать</a>
+    </nav>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="Открыть меню"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-toggle
+    >
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div
+  class="menu-backdrop"
+  data-menu-backdrop
+  hidden
+  aria-hidden="true"
+></div>
+
+<aside
+  class="mobile-menu"
+  id="mobile-menu"
+  data-mobile-menu
+  aria-hidden="true"
+  aria-label="Меню"
+>
+  <nav aria-label="Мобильная навигация">
+    {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    <a class="mobile-menu-cta" href={telegramUrl} target="_blank" rel="noopener">Написать Кире ↗</a>
+  </nav>
+</aside>

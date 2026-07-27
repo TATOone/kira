@@ -1,0 +1,838 @@
+---
+import Header from '../components/Header.astro';
+import ServiceTip from '../components/ServiceTip.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import site from '../content/site.json';
+
+const telegramUrl = `https://t.me/${site.contacts.telegram.replace('@', '')}`;
+const channelUrl = `https://t.me/${site.contacts.channel.replace('@', '')}`;
+const currentYear = new Date().getFullYear();
+const aboutParagraphs = site.about.text.split(/\n\n+/).filter(Boolean);
+const comparisons = [
+  { id: 1, width: 720, height: 1217 },
+  { id: 2, width: 720, height: 1280 },
+  { id: 3, width: 720, height: 1316 },
+  { id: 4, width: 720, height: 1424 },
+];
+const practiceGallery = [
+  {
+    src: '/media/photos/pravki2.webp',
+    alt: 'Кира Мусаелян во время женской правки тела',
+    width: 854,
+    height: 1280,
+  },
+  {
+    src: '/media/photos/banya2.webp',
+    alt: 'Женская банная практика Киры Мусаелян',
+    width: 726,
+    height: 1280,
+  },
+  {
+    src: '/media/photos/resurs2.webp',
+    alt: 'Встреча сообщества ресурсного материнства',
+    width: 1280,
+    height: 960,
+  },
+  {
+    src: '/media/photos/banya3.webp',
+    alt: 'Атмосфера женской бани с Кирой Мусаелян',
+    width: 1010,
+    height: 1280,
+  },
+  {
+    src: '/media/photos/resurs3.webp',
+    alt: 'Кира Мусаелян с семьёй на прогулке',
+    width: 1206,
+    height: 780,
+  },
+];
+---
+
+<BaseLayout
+  title={site.seo.title}
+  description={site.seo.description}
+  image={site.hero.image}
+>
+  <a class="skip-link" href="#main">Перейти к содержанию</a>
+  <Header brand={site.brand} logo={site.logo} telegram={site.contacts.telegram} />
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-media" aria-hidden="true">
+        <picture>
+          <source srcset="/media/photos/hero.webp" type="image/webp" />
+          <img
+            src="/media/photos/hero.jpg"
+            alt=""
+            width="1206"
+            height="1787"
+            sizes="100vw"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
+      </div>
+      <div class="container hero-content">
+        <p class="eyebrow">{site.hero.eyebrow}</p>
+        <h1 class="display" id="hero-title">{site.hero.title}</h1>
+        <p class="hero-lead">{site.hero.lead}</p>
+        <p class="hero-copy">{site.hero.description}</p>
+        <a class="button button--light" href={telegramUrl} target="_blank" rel="noopener">
+          {site.hero.cta}
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8"></path>
+          </svg>
+        </a>
+      </div>
+      <span class="hero-scroll" aria-hidden="true">Листайте</span>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div class="about-image reveal">
+          <img
+            src={site.about.image}
+            alt="Кира Мусаелян во время женской правки тела"
+            width="866"
+            height="1280"
+            loading="lazy"
+          />
+        </div>
+        <div class="about-copy reveal">
+          <p class="eyebrow">Обо мне</p>
+          <h2 class="section-title" id="about-title">{site.about.title}</h2>
+          {aboutParagraphs.map((paragraph) => <p class="lede">{paragraph}</p>)}
+          <blockquote class="pull-quote">{site.about.note}</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section practice-explain" id="practice" aria-labelledby="practice-title">
+      <div class="container">
+        <div class="practice-explain-head reveal">
+          <p class="eyebrow">Практика</p>
+          <h2 class="section-title" id="practice-title">Что такое женская правка</h2>
+          <p class="lede">
+            Коротко о подходе — и рядом сравнения до и после реальных встреч.
+          </p>
+        </div>
+
+        <div class="practice-duo reveal">
+          <figure class="story-video">
+            <video
+              controls
+              playsinline
+              preload="metadata"
+              poster="/media/posters/info_pravki.webp"
+            >
+              <source src="/media/videos/info_pravki.mp4" type="video/mp4" />
+              Браузер не поддерживает видео.
+            </video>
+            <figcaption class="story-caption">
+              <p class="story-kicker">Видео</p>
+              <h3>О женской правке</h3>
+              <p>Кира рассказывает, как устроена практика</p>
+            </figcaption>
+          </figure>
+
+          <div class="comparison-carousel">
+            <div class="comparison-heading">
+              <div>
+                <p class="story-kicker">Результат</p>
+                <h3>До и после</h3>
+                <p>Передвигай разделитель на каждом снимке</p>
+              </div>
+              <div class="comparison-nav">
+                <span class="comparison-count" aria-live="polite" data-comparison-count>1 / {comparisons.length}</span>
+                <div class="slider-controls comparison-controls" aria-label="Управление сравнениями">
+                  <button class="round-button" type="button" data-comparison-prev aria-label="Предыдущее сравнение">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"></path>
+                    </svg>
+                  </button>
+                  <button class="round-button" type="button" data-comparison-next aria-label="Следующее сравнение">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="comparison-track"
+              data-comparison-track
+              tabindex="0"
+              aria-label="Карусель сравнений до и после"
+            >
+              {comparisons.map((comparison, index) => (
+                <article class="comparison-slide" aria-label={`Сравнение ${index + 1} из ${comparisons.length}`}>
+                  <div class="before-after" data-compare>
+                    <img
+                      src={`/media/photos/before_after${comparison.id}_after.webp`}
+                      alt={`Фото после практики, сравнение ${index + 1}`}
+                      loading="lazy"
+                      width={comparison.width}
+                      height={comparison.height}
+                    />
+                    <img
+                      class="after-image"
+                      src={`/media/photos/before_after${comparison.id}_before.webp`}
+                      alt={`Фото до практики, сравнение ${index + 1}`}
+                      loading="lazy"
+                      width={comparison.width}
+                      height={comparison.height}
+                    />
+                    <span class="compare-label compare-label--before">До</span>
+                    <span class="compare-label compare-label--after">После</span>
+                    <span class="compare-divider" aria-hidden="true"></span>
+                    <input
+                      class="compare-range"
+                      type="range"
+                      min="0"
+                      max="100"
+                      value="50"
+                      aria-label={`Сравнить фотографии до и после, пример ${index + 1}`}
+                      data-compare-range
+                    />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section services" id="offline" aria-labelledby="offline-title">
+      <div class="container">
+        <div class="services-head reveal">
+          <div>
+            <p class="eyebrow">Лично в Крыму</p>
+            <h2 class="section-title" id="offline-title">Личные встречи в Крыму</h2>
+          </div>
+          <p class="lede">
+            Перед встречей обсудим, что тебе сейчас нужно, и выберем подходящий формат.
+          </p>
+        </div>
+
+        {site.offlineServices.map((service, index) => (
+          <article class="service-row reveal">
+            <div class="service-photo">
+              <img
+                src={service.image}
+                alt={`${service.title} — практика Киры`}
+                width={index === 0 ? 866 : 1206}
+                height={index === 0 ? 1280 : 886}
+                loading="lazy"
+              />
+            </div>
+            <div class="service-copy">
+              <span class="service-number">0{index + 1}</span>
+              <div class="service-title-row">
+                <h3>{service.title}</h3>
+                {
+                  service.price && service.tip ? (
+                    <ServiceTip
+                      id={`tip-offline-${index}`}
+                      price={service.price}
+                      text={service.tip}
+                    />
+                  ) : null
+                }
+              </div>
+              <p>{service.description}</p>
+              <ul class="service-details">
+                {service.details.map((detail, detailIndex) => (
+                  <li>
+                    <span>{detail.label}</span>
+                    {
+                      detail.price && detail.tip ? (
+                        <ServiceTip
+                          id={`tip-offline-${index}-detail-${detailIndex}`}
+                          price={detail.price}
+                          text={detail.tip}
+                        />
+                      ) : null
+                    }
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" id="online" aria-labelledby="online-title">
+      <div class="container">
+        <div class="online-head reveal">
+          <div>
+            <p class="eyebrow">Из любой точки</p>
+            <h2 class="section-title" id="online-title">Онлайн-программы и консультации</h2>
+          </div>
+          <p class="lede">
+            Занимайся дома в удобном темпе или приходи с конкретным вопросом на консультацию.
+          </p>
+        </div>
+
+        <div class="online-list">
+          {site.onlineServices.map((service, index) => (
+            <article class="online-item reveal">
+              <span>0{index + 1}</span>
+              <div class="online-item-copy">
+                <div class="service-title-row">
+                  <h3>{service.title}</h3>
+                  {
+                    service.price && service.tip ? (
+                      <ServiceTip
+                        id={`tip-online-${index}`}
+                        price={service.price}
+                        text={service.tip}
+                      />
+                    ) : null
+                  }
+                </div>
+                <p>{service.description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section practice-gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="gallery-head reveal">
+          <div>
+            <p class="eyebrow">Несколько моментов</p>
+            <h2 class="section-title" id="gallery-title">Встречи, баня и жизнь рядом</h2>
+          </div>
+          <p class="lede">Без постановки — просто фотографии с практик и обычных дней.</p>
+        </div>
+        <div class="gallery-strip reveal" aria-label="Фотографии практик и семьи">
+          {practiceGallery.map((photo) => (
+            <figure>
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                width={photo.width}
+                height={photo.height}
+              />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews" aria-labelledby="reviews-title">
+      <div class="container">
+        <div class="reviews-head reveal">
+          <div>
+            <p class="eyebrow">Отзывы</p>
+            <h2 class="section-title" id="reviews-title">Рассказывают участницы</h2>
+          </div>
+          <div class="slider-controls" aria-label="Управление отзывами">
+            <button class="round-button" type="button" data-slider-prev aria-label="Предыдущий отзыв">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"></path>
+              </svg>
+            </button>
+            <button class="round-button" type="button" data-slider-next aria-label="Следующий отзыв">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="reviews-track reveal" data-reviews-track>
+          {site.reviews.map((review) => (
+            <article class="review">
+              <button
+                class="review-video"
+                type="button"
+                data-video={review.video}
+                data-poster={review.poster}
+                aria-label={`Смотреть: ${review.title}`}
+              >
+                <img src={review.poster} alt="" loading="lazy" width="540" height="960" />
+                <span class="play">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m9 7 8 5-8 5V7Z" fill="currentColor"></path>
+                  </svg>
+                </span>
+              </button>
+              <h3>{review.title}</h3>
+              <p>{review.service}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="faq-head reveal">
+          <p class="eyebrow">Вопросы</p>
+          <h2 class="section-title" id="faq-title">Частые вопросы о Кире Мусаелян</h2>
+          <p class="lede">
+            Коротко о ресурсном материнстве, женской правке и банных практиках в Крыму и онлайн.
+          </p>
+        </div>
+        <div class="faq-list">
+          {site.faq.map((item) => (
+            <details class="faq-item reveal">
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-grid">
+        <div class="contact-copy reveal">
+          <p class="eyebrow">Связаться</p>
+          <h2 class="section-title" id="contact-title">Напишите Кире Мусаелян</h2>
+          <p class="lede">
+            Коротко расскажи, что тебя интересует. Кира Мусаелян ответит сама и подскажет по форматам
+            ресурсного материнства, правки и бань.
+          </p>
+          <div class="contact-links">
+            <a href={telegramUrl} target="_blank" rel="noopener">Telegram</a>
+            <a href={channelUrl} target="_blank" rel="noopener">Канал поддержки</a>
+            <a href={site.contacts.instagram} target="_blank" rel="noopener">Instagram*</a>
+          </div>
+        </div>
+
+        <form class="contact-form reveal" data-contact-form>
+          <div class="field">
+            <label for="name">Как к тебе обращаться</label>
+            <input id="name" name="name" autocomplete="name" placeholder="Имя" required />
+          </div>
+          <div class="field">
+            <label for="request">Твой запрос</label>
+            <textarea id="request" name="request" placeholder="Напишите несколько слов" required></textarea>
+          </div>
+          <label class="consent">
+            <input type="checkbox" name="consent" required />
+            <span>
+              Я согласна с <a href="/privacy/">политикой конфиденциальности</a>
+            </span>
+          </label>
+          <button class="button button--dark" type="submit">
+            Продолжить в Telegram
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8"></path>
+            </svg>
+          </button>
+          <p class="form-note">Откроется Telegram с готовым текстом. Проверь его и отправь, когда будешь готова.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>
+        © {currentYear} {site.brand} · {site.siteName} · Самозанятая · {site.contacts.location}
+      </span>
+      <nav class="footer-links" aria-label="Дополнительная навигация">
+        <a href="/privacy/">Политика конфиденциальности</a>
+        <a href="https://resurs-materinstva.ru/">resurs-materinstva.ru</a>
+      </nav>
+    </div>
+  </footer>
+
+  <a class="to-top" href="#top" data-to-top aria-label="Вернуться к началу">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m5 15 7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"></path>
+    </svg>
+  </a>
+
+  <div class="video-dialog" data-video-dialog role="dialog" aria-modal="true" aria-label="Видеоотзыв">
+    <button class="video-close" type="button" data-video-close aria-label="Закрыть видео">×</button>
+    <video controls playsinline data-dialog-video></video>
+  </div>
+
+  <script is:inline define:vars={{ telegram: site.contacts.telegram.replace('@', '') }}>
+    const header = document.querySelector('[data-header]');
+    const menuToggle = document.querySelector('[data-menu-toggle]');
+    const mobileMenu = document.querySelector('[data-mobile-menu]');
+    const menuBackdrop = document.querySelector('[data-menu-backdrop]');
+    const toTop = document.querySelector('[data-to-top]');
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const navLinks = [...document.querySelectorAll('[data-nav-link]')];
+
+    const setMenuOpen = (open) => {
+      menuToggle?.setAttribute('aria-expanded', String(open));
+      menuToggle?.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+      mobileMenu?.classList.toggle('open', open);
+      mobileMenu?.setAttribute('aria-hidden', String(!open));
+      menuBackdrop?.classList.toggle('open', open);
+      if (menuBackdrop instanceof HTMLElement) menuBackdrop.hidden = !open;
+      menuBackdrop?.setAttribute('aria-hidden', String(!open));
+      header?.classList.toggle('menu-active', open);
+      document.body.classList.toggle('menu-open', open);
+    };
+
+    const closeMenu = () => setMenuOpen(false);
+
+    menuToggle?.addEventListener('click', () => {
+      const open = menuToggle.getAttribute('aria-expanded') !== 'true';
+      setMenuOpen(open);
+    });
+
+    menuBackdrop?.addEventListener('click', closeMenu);
+    mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+    const updateScrollState = () => {
+      const scrolled = window.scrollY > 40;
+      header?.classList.toggle('scrolled', scrolled);
+      toTop?.classList.toggle('visible', window.scrollY > window.innerHeight * 0.75);
+
+      let activeId = '';
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= 130) activeId = section.id;
+      }
+      navLinks.forEach((link) => {
+        link.setAttribute('aria-current', link.getAttribute('href') === `#${activeId}` ? 'true' : 'false');
+      });
+    };
+
+    updateScrollState();
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12 },
+    );
+    document.querySelectorAll('.reveal').forEach((item) => revealObserver.observe(item));
+
+    const track = document.querySelector('[data-reviews-track]');
+    const slide = (direction) => {
+      if (!track) return;
+      const card = track.querySelector('.review');
+      const distance = (card?.getBoundingClientRect().width ?? 320) + 16;
+      track.scrollBy({ left: distance * direction, behavior: 'smooth' });
+    };
+    document.querySelector('[data-slider-prev]')?.addEventListener('click', () => slide(-1));
+    document.querySelector('[data-slider-next]')?.addEventListener('click', () => slide(1));
+
+    document.querySelectorAll('[data-compare-range]').forEach((range) => {
+      const syncCompare = () => {
+        if (!(range instanceof HTMLInputElement)) return;
+        const compare = range.closest('[data-compare]');
+        if (!(compare instanceof HTMLElement)) return;
+        const value = Number(range.value);
+        compare.style.setProperty('--position', `${value}%`);
+        const beforeLabel = compare.querySelector('.compare-label--before');
+        const afterLabel = compare.querySelector('.compare-label--after');
+        const beforeVisible = value / 100;
+        const afterVisible = 1 - beforeVisible;
+        if (beforeLabel instanceof HTMLElement) {
+          beforeLabel.style.opacity = String(Math.max(0, Math.min(1, (beforeVisible - 0.12) / 0.28)));
+        }
+        if (afterLabel instanceof HTMLElement) {
+          afterLabel.style.opacity = String(Math.max(0, Math.min(1, (afterVisible - 0.12) / 0.28)));
+        }
+      };
+      range.addEventListener('input', syncCompare);
+      syncCompare();
+    });
+
+    const comparisonTrack = document.querySelector('[data-comparison-track]');
+    const comparisonCount = document.querySelector('[data-comparison-count]');
+    const comparisonSlides = comparisonTrack
+      ? [...comparisonTrack.querySelectorAll('.comparison-slide')]
+      : [];
+
+    const getComparisonLeft = (item) => {
+      if (!(comparisonTrack instanceof HTMLElement) || !(item instanceof HTMLElement)) return 0;
+      return item.getBoundingClientRect().left
+        - comparisonTrack.getBoundingClientRect().left
+        + comparisonTrack.scrollLeft;
+    };
+
+    const getComparisonIndex = () => {
+      if (!(comparisonTrack instanceof HTMLElement) || comparisonSlides.length === 0) return 0;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+      comparisonSlides.forEach((item, index) => {
+        if (!(item instanceof HTMLElement)) return;
+        const distance = Math.abs(getComparisonLeft(item) - comparisonTrack.scrollLeft);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+      return closestIndex;
+    };
+
+    const updateComparisonCount = () => {
+      if (comparisonCount) {
+        comparisonCount.textContent = `${getComparisonIndex() + 1} / ${comparisonSlides.length}`;
+      }
+    };
+
+    const goToComparison = (index) => {
+      if (!(comparisonTrack instanceof HTMLElement) || comparisonSlides.length === 0) return;
+      const nextIndex = Math.max(0, Math.min(index, comparisonSlides.length - 1));
+      const item = comparisonSlides[nextIndex];
+      if (item instanceof HTMLElement) {
+        comparisonTrack.scrollTo({ left: getComparisonLeft(item), behavior: 'smooth' });
+      }
+    };
+
+    document.querySelector('[data-comparison-prev]')?.addEventListener('click', () => {
+      goToComparison(getComparisonIndex() - 1);
+    });
+    document.querySelector('[data-comparison-next]')?.addEventListener('click', () => {
+      goToComparison(getComparisonIndex() + 1);
+    });
+    comparisonTrack?.addEventListener('scroll', updateComparisonCount, { passive: true });
+    comparisonTrack?.addEventListener('keydown', (event) => {
+      if (event.target !== comparisonTrack) return;
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        goToComparison(getComparisonIndex() - 1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        goToComparison(getComparisonIndex() + 1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        goToComparison(0);
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        goToComparison(comparisonSlides.length - 1);
+      }
+    });
+
+    const dialog = document.querySelector('[data-video-dialog]');
+    const dialogVideo = document.querySelector('[data-dialog-video]');
+    let lastVideoTrigger = null;
+
+    const closeVideo = () => {
+      if (!(dialog instanceof HTMLElement) || !(dialogVideo instanceof HTMLVideoElement)) return;
+      dialogVideo.pause();
+      dialogVideo.removeAttribute('src');
+      dialogVideo.load();
+      dialog.classList.remove('open');
+      document.body.classList.remove('video-open');
+      lastVideoTrigger?.focus();
+    };
+
+    document.querySelectorAll('[data-video]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        if (!(trigger instanceof HTMLElement) || !(dialog instanceof HTMLElement) || !(dialogVideo instanceof HTMLVideoElement)) return;
+        lastVideoTrigger = trigger;
+        dialogVideo.src = trigger.dataset.video ?? '';
+        dialogVideo.poster = trigger.dataset.poster ?? '';
+        dialog.classList.add('open');
+        document.body.classList.add('video-open');
+        dialogVideo.play().catch(() => undefined);
+      });
+    });
+    document.querySelector('[data-video-close]')?.addEventListener('click', closeVideo);
+    dialog?.addEventListener('click', (event) => {
+      if (event.target === dialog) closeVideo();
+    });
+    const tipHost = document.createElement('div');
+    tipHost.className = 'service-tip-host';
+    document.body.appendChild(tipHost);
+
+    /** @type {HTMLElement | null} */
+    let activeTip = null;
+    /** @type {ReturnType<typeof setTimeout> | null} */
+    let tipHideTimer = null;
+    let tipRaf = 0;
+
+    const getTipParts = (tip) => {
+      const trigger = tip.querySelector('[data-tip-trigger]');
+      const id = tip.dataset.tipId;
+      const bubble =
+        tipHost.querySelector(`[data-tip-bubble][id="${id}"]`) ||
+        tip.querySelector('[data-tip-bubble]');
+      return {
+        trigger: trigger instanceof HTMLElement ? trigger : null,
+        bubble: bubble instanceof HTMLElement ? bubble : null,
+      };
+    };
+
+    const closeTips = () => {
+      if (tipHideTimer) {
+        clearTimeout(tipHideTimer);
+        tipHideTimer = null;
+      }
+      document.querySelectorAll('[data-tip]').forEach((tip) => {
+        tip.classList.remove('is-open', 'is-hover');
+        tip.querySelector('[data-tip-trigger]')?.setAttribute('aria-expanded', 'false');
+        const { bubble } = getTipParts(tip);
+        if (bubble) {
+          bubble.hidden = true;
+          bubble.classList.remove('is-visible', 'place-above', 'place-below');
+        }
+      });
+      activeTip = null;
+    };
+
+    const placeTip = (tip) => {
+      const { trigger, bubble } = getTipParts(tip);
+      if (!trigger || !bubble) return;
+
+      if (bubble.parentElement !== tipHost) {
+        tipHost.appendChild(bubble);
+      }
+
+      bubble.hidden = false;
+      const margin = 16;
+      const gap = 10;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const triggerRect = trigger.getBoundingClientRect();
+      const maxWidth = Math.min(22 * 16, vw - margin * 2);
+      bubble.style.width = `${maxWidth}px`;
+      bubble.style.maxHeight = `${Math.min(vh * 0.7, 26 * 16)}px`;
+
+      const tipWidth = bubble.offsetWidth || maxWidth;
+      const tipHeight = bubble.offsetHeight || 120;
+      const spaceBelow = vh - triggerRect.bottom - margin;
+      const spaceAbove = triggerRect.top - margin;
+      const placeBelow = spaceBelow >= Math.min(tipHeight, 140) || spaceBelow >= spaceAbove;
+
+      bubble.classList.toggle('place-below', placeBelow);
+      bubble.classList.toggle('place-above', !placeBelow);
+
+      let top = placeBelow ? triggerRect.bottom + gap : triggerRect.top - tipHeight - gap;
+      top = Math.max(margin, Math.min(top, vh - tipHeight - margin));
+
+      let left = triggerRect.left + triggerRect.width / 2 - tipWidth / 2;
+      left = Math.max(margin, Math.min(left, vw - tipWidth - margin));
+
+      bubble.style.top = `${Math.round(top)}px`;
+      bubble.style.left = `${Math.round(left)}px`;
+
+      const arrow = Math.max(
+        18,
+        Math.min(triggerRect.left + triggerRect.width / 2 - left - 6, tipWidth - 24),
+      );
+      bubble.style.setProperty('--tip-arrow-left', `${Math.round(arrow)}px`);
+      bubble.classList.add('is-visible');
+    };
+
+    const schedulePlace = (tip) => {
+      cancelAnimationFrame(tipRaf);
+      tipRaf = requestAnimationFrame(() => placeTip(tip));
+    };
+
+    const showTip = (tip, mode) => {
+      if (tipHideTimer) {
+        clearTimeout(tipHideTimer);
+        tipHideTimer = null;
+      }
+      if (activeTip && activeTip !== tip) closeTips();
+      activeTip = tip;
+      tip.classList.add(mode);
+      tip.querySelector('[data-tip-trigger]')?.setAttribute('aria-expanded', 'true');
+      schedulePlace(tip);
+    };
+
+    const requestHideTip = (tip) => {
+      if (tipHideTimer) clearTimeout(tipHideTimer);
+      tipHideTimer = setTimeout(() => {
+        if (activeTip !== tip) return;
+        if (tip.classList.contains('is-open')) return;
+        tip.classList.remove('is-hover');
+        tip.querySelector('[data-tip-trigger]')?.setAttribute('aria-expanded', 'false');
+        const { bubble } = getTipParts(tip);
+        if (bubble) {
+          bubble.hidden = true;
+          bubble.classList.remove('is-visible', 'place-above', 'place-below');
+        }
+        if (activeTip === tip) activeTip = null;
+      }, 120);
+    };
+
+    document.querySelectorAll('[data-tip]').forEach((tip) => {
+      const { trigger, bubble } = getTipParts(tip);
+      if (!trigger || !bubble) return;
+      tipHost.appendChild(bubble);
+
+      const canHover = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      tip.addEventListener('mouseenter', () => {
+        if (canHover()) showTip(tip, 'is-hover');
+      });
+      tip.addEventListener('mouseleave', () => {
+        if (canHover()) requestHideTip(tip);
+      });
+      bubble.addEventListener('mouseenter', () => {
+        if (tipHideTimer) {
+          clearTimeout(tipHideTimer);
+          tipHideTimer = null;
+        }
+        if (canHover()) showTip(tip, 'is-hover');
+      });
+      bubble.addEventListener('mouseleave', () => {
+        if (canHover()) requestHideTip(tip);
+      });
+
+      tip.addEventListener('focusin', () => showTip(tip, 'is-hover'));
+      tip.addEventListener('focusout', (event) => {
+        const next = event.relatedTarget;
+        if (next instanceof Node && (tip.contains(next) || bubble.contains(next))) return;
+        requestHideTip(tip);
+      });
+
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const willOpen = !tip.classList.contains('is-open');
+        closeTips();
+        if (willOpen) showTip(tip, 'is-open');
+      });
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      const target = event.target;
+      if (!(target instanceof Node) || !activeTip) return;
+      const { trigger, bubble } = getTipParts(activeTip);
+      if (trigger?.contains(target) || bubble?.contains(target)) return;
+      closeTips();
+    });
+
+    const syncActiveTip = () => {
+      if (activeTip) schedulePlace(activeTip);
+    };
+
+    window.addEventListener('resize', syncActiveTip, { passive: true });
+    document.addEventListener('scroll', syncActiveTip, { passive: true, capture: true });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeVideo();
+        closeMenu();
+        closeTips();
+      }
+    });
+
+    document.querySelector('[data-contact-form]')?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!(form instanceof HTMLFormElement) || !form.reportValidity()) return;
+      const data = new FormData(form);
+      const name = String(data.get('name') ?? '').trim();
+      const request = String(data.get('request') ?? '').trim();
+      const text = `Здравствуйте, Кира! Меня зовут ${name}.\n\n${request}`;
+      window.open(`https://t.me/${telegram}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    });
+  </script>
+</BaseLayout>

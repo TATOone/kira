@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /keystatic/
+Disallow: /api/keystatic/
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+Host: https://resurs-materinstva.ru
+Sitemap: https://resurs-materinstva.ru/sitemap-index.xml

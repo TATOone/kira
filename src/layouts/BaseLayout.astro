@@ -1,0 +1,188 @@
+---
+import '@fontsource-variable/manrope/index.css';
+import '@fontsource/prata/400.css';
+import '@fontsource/cormorant-garamond/cyrillic-400.css';
+import '@fontsource/cormorant-garamond/cyrillic-500.css';
+import '@fontsource/cormorant-garamond/latin-400.css';
+import '@fontsource/cormorant-garamond/latin-500.css';
+import site from '../content/site.json';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/media/photos/hero.webp',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site).href;
+const siteOrigin = Astro.site?.origin ?? 'https://resurs-materinstva.ru';
+const telegramUrl = `https://t.me/${site.contacts.telegram.replace('@', '')}`;
+const channelUrl = `https://t.me/${site.contacts.channel.replace('@', '')}`;
+const siteName = site.siteName ?? 'Ресурсное материнство';
+
+const offlineOffers = site.offlineServices.map((service) => {
+  const digits = service.price?.replace(/[^\d]/g, '');
+  return {
+    '@type': 'Offer',
+    name: service.title,
+    description: service.description,
+    priceCurrency: 'RUB',
+    availability: 'https://schema.org/InStock',
+    url: `${siteOrigin}/#offline`,
+    ...(digits ? { price: digits } : {}),
+  };
+});
+
+const onlineOffers = site.onlineServices.flatMap((service) => {
+  if (!('price' in service) || !service.price) return [];
+  const digits = String(service.price).replace(/[^\d]/g, '');
+  return [
+    {
+      '@type': 'Offer',
+      name: service.title,
+      description: service.description,
+      priceCurrency: 'RUB',
+      availability: 'https://schema.org/InStock',
+      url: `${siteOrigin}/#online`,
+      ...(digits ? { price: digits } : {}),
+    },
+  ];
+});
+
+const faqEntities = (site.faq ?? []).map((item) => ({
+  '@type': 'Question',
+  name: item.question,
+  acceptedAnswer: {
+    '@type': 'Answer',
+    text: item.answer,
+  },
+}));
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${siteOrigin}/#website`,
+      url: siteOrigin,
+      name: `${siteName} — ${site.brand}`,
+      alternateName: [site.brand, siteName, 'resurs-materinstva', 'resurs-materinstva.ru'],
+      description,
+      inLanguage: 'ru-RU',
+      publisher: { '@id': `${siteOrigin}/#person` },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical.href}#webpage`,
+      url: canonical.href,
+      name: title,
+      description,
+      isPartOf: { '@id': `${siteOrigin}/#website` },
+      about: { '@id': `${siteOrigin}/#person` },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: ogImage,
+      },
+      inLanguage: 'ru-RU',
+    },
+    {
+      '@type': ['Person', 'ProfessionalService', 'LocalBusiness'],
+      '@id': `${siteOrigin}/#person`,
+      name: site.brand,
+      alternateName: [siteName, 'Кира Мусаелян ресурсное материнство'],
+      url: siteOrigin,
+      image: ogImage,
+      logo: ogImage,
+      description: site.seo.description,
+      jobTitle: 'Консультант поддержки материнства',
+      priceRange: '₽₽',
+      address: {
+        '@type': 'PostalAddress',
+        addressRegion: site.contacts.location,
+        addressCountry: 'RU',
+      },
+      areaServed: [
+        {
+          '@type': 'Place',
+          name: site.contacts.location,
+        },
+        {
+          '@type': 'Country',
+          name: 'Россия',
+        },
+      ],
+      knowsAbout: [
+        'Женская правка тела',
+        'Женская баня',
+        'Ресурсное материнство',
+        'Закрытие родов',
+        'Послеродовое восстановление',
+        'Подготовка к беременности',
+        'Самоправки',
+      ],
+      makesOffer: [...offlineOffers, ...onlineOffers],
+      sameAs: [telegramUrl, channelUrl, site.contacts.instagram].filter(Boolean),
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        availableLanguage: ['Russian'],
+        url: telegramUrl,
+      },
+    },
+    ...(faqEntities.length
+      ? [
+          {
+            '@type': 'FAQPage',
+            '@id': `${siteOrigin}/#faq`,
+            mainEntity: faqEntities,
+          },
+        ]
+      : []),
+  ],
+};
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="Кира Мусаелян, ресурсное материнство, resurs-materinstva, женская правка, правка тела Крым, женская баня Крым, закрытие родов, поддержка материнства, самоправки"
+    />
+    <meta name="author" content={site.brand} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#8f2032" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content={`${siteName} — ${site.brand}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={`${site.brand} — ${siteName}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1787" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ru" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kira-site",
+  "compatibility_date": "2026-07-15",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "PUBLIC_SITE_URL": "https://resurs-materinstva.ru",
+    "PUBLIC_KEYSTATIC_STORAGE": "github",
+    "PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER": "TATOone",
+    "PUBLIC_KEYSTATIC_GITHUB_REPO_NAME": "kira"
+  },
+  "routes": [
+    { "pattern": "resurs-materinstva.ru", "custom_domain": true },
+    { "pattern": "www.resurs-materinstva.ru", "custom_domain": true }
+  ]
+}
