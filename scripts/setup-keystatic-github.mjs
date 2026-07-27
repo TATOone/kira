@@ -4,7 +4,7 @@
  * write .env, print Cloudflare secret commands.
  */
 import { createServer } from 'node:http';
-import { writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
 import { execSync } from 'node:child_process';
 

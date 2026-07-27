@@ -6,8 +6,12 @@ import sitemap from '@astrojs/sitemap';
 import keystatic from '@keystatic/astro';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const isCloudflare = process.env.DEPLOY_TARGET === 'cloudflare';
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
+const keystaticApiFix = path.resolve(rootDir, 'src/lib/keystatic-astro-api-fix.js');
 
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://resurs-materinstva.ru',
@@ -19,7 +23,9 @@ export default defineConfig({
     sitemap({
       filter: (page) => !page.includes('/keystatic'),
       serialize(item) {
-        const isHome = item.url === 'https://resurs-materinstva.ru/' || /\/$/.test(new URL(item.url).pathname) && new URL(item.url).pathname === '/';
+        const isHome =
+          item.url === 'https://resurs-materinstva.ru/' ||
+          (new URL(item.url).pathname === '/');
         item.lastmod = new Date().toISOString();
         if (item.url.includes('/privacy')) {
           item.changefreq = 'yearly';
@@ -35,5 +41,17 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: [
+        {
+          find: '@keystatic/astro/api',
+          replacement: keystaticApiFix,
+        },
+        {
+          find: /.*\/@keystatic\/astro\/dist\/keystatic-astro-api\.js$/,
+          replacement: keystaticApiFix,
+        },
+      ],
+    },
   },
 });

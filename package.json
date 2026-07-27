@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Лендинг женских практик Киры",
   "scripts": {
+    "postinstall": "bash scripts/apply-keystatic-patch.sh",
     "dev": "astro dev",
     "build": "DEPLOY_TARGET=cloudflare astro check && DEPLOY_TARGET=cloudflare astro build",
     "preview": "astro preview",
