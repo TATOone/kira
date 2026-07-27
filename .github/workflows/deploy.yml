@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -26,10 +30,8 @@ jobs:
           PUBLIC_KEYSTATIC_STORAGE: github
           PUBLIC_KEYSTATIC_GITHUB_REPO_OWNER: TATOone
           PUBLIC_KEYSTATIC_GITHUB_REPO_NAME: kira
-          PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: ${{ vars.PUBLIC_KEYSTATIC_GITHUB_APP_SLUG }}
-          KEYSTATIC_GITHUB_CLIENT_ID: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_ID }}
-          KEYSTATIC_GITHUB_CLIENT_SECRET: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_SECRET }}
-          KEYSTATIC_SECRET: ${{ secrets.KEYSTATIC_SECRET }}
+          PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: kira-resurs-materinstva
+          DEPLOY_TARGET: cloudflare
         run: npm run build
 
       - name: Deploy to Cloudflare Workers

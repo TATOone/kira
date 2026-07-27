@@ -6,6 +6,7 @@ dist/
 .env.*
 !.env.example
 .keystatic-github-creds.json
+.tmp/
 .DS_Store
 .cursor/
 /content/
